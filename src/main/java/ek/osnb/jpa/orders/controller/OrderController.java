@@ -2,6 +2,7 @@ package ek.osnb.jpa.orders.controller;
 
 import ek.osnb.jpa.dto.OrderDto;
 import ek.osnb.jpa.dto.OrderLineDto;
+import ek.osnb.jpa.dto.OrderUpdateDto;
 import ek.osnb.jpa.orders.model.Order;
 import ek.osnb.jpa.orders.model.OrderStatus;
 import ek.osnb.jpa.orders.service.OrderService;
@@ -74,4 +75,16 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderDto> updateOrderStatus(@PathVariable Long id,
+                                                      @RequestBody OrderUpdateDto orderUpdateDto) {
+        try {
+            OrderDto updatedOrder = orderService.updateOrderStatus(id, orderUpdateDto);
+            return ResponseEntity.ok(updatedOrder);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 }
